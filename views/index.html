@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <title>WebSchool</title>
+        <link rel='stylesheet' href='/css/bootstrap.css'>
+        <link rel='stylesheet' href='/common.css'>
+    </head>
+    <body>
+        <div class='logo-bar'>
+            <div class='container'>
+                <h4>WebSchool</h4>
+            </div>
+        </div>
+        <header>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-12 col-lg-8'>
+                        <video controls>
+                            <source src='/intro.mp4' >
+                        </video>
+                    </div>
+                    <div class='col-12 col-lg-4 d-none d-lg-block'>
+                        <%  for (var i of lesson) { %>
+                            <h6>
+                                <a href='/<%= i.link %>'>
+                                <%= i.title %>
+                                </a>
+                            </h6>
+                            <video>
+                                <source src='/<%= i.link %>' >
+                            </video>
+                        <%  } %>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class='container'>
+                <h5>Popular Lessons</h5>
+                <div class='row'>
+                    <%  for (var i = 0; i < 3; i++) { %>
+                        <%  for (var v of lesson) { %>
+                        <div class='col-6 col-lg-4'>
+                            <h6><%= v.title %></h6>
+                            <video post='/<%= v.poster %>'>
+                                <source src='/<%= v.link %>' >
+                            </video>
+                        </div>
+                        <%  } %>
+                    <%  } %>
+                </div>
+            </div>
+        </main>
+        <footer>
+
+
+        </footer>
+    </body>
+</html>

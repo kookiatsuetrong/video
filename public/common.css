@@ -1,0 +1,13 @@
+:root {
+    --brand: #85B;
+    --dark-brand: #639;
+}
+
+video {
+    max-width: 100%;
+}
+
+footer {
+    min-height: 30rem;
+    background: var(--dark-brand);
+}
