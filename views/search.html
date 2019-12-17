@@ -1,0 +1,11 @@
+<form>
+    <input name='video'>
+    <button>Search</button>
+</form>
+<%  for (var i in result) { %>
+
+    <br> <%= result[i].title %>
+
+        <a href='<%= result[i].link %>'>View</a>
+
+<%  } %>
