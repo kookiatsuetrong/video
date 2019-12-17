@@ -1,6 +1,8 @@
 var express = require('express')
 var ejs     = require('ejs')
 var mysql   = require('mysql')
+var parser  = require('cookie-parser')
+var cookie  = parser()
 var source  = { host: 'localhost', database: 'webschool',
                 user: 'james',     password: 'bond' }
 var pool    = mysql.createPool(source)
@@ -11,11 +13,22 @@ server.engine('html', ejs.renderFile)
 
 var valid = [ ]
 
-server.get('/', showHome)
-server.get('/search', showSearch)
+server.get('/',        showHome)
+server.get('/search',  showSearch)
 server.get ('/login',  showLogIn)
 server.post('/login',  reader, checkLogIn)
+server.get ('/main',   cookie, showMain)
 server.use(express.static('public'))
+
+function showMain(req, res) {
+    var card = null
+    if (req.cookies != null) { card = req.cookies.card }
+    if (valid[card]) {
+        res.render('main.html')
+    } else {
+        res.redirect('/login')
+    }
+}
 
 function showLogIn(req, res) { 
     res.render('login.html') 
