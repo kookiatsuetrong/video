@@ -9,19 +9,29 @@ var reader  = express.urlencoded({extended:false})
 server.listen(2000)
 server.engine('html', ejs.renderFile)
 
+var valid = [ ]
+
 server.get('/', showHome)
 server.get('/search', showSearch)
 server.get ('/login',  showLogIn)
 server.post('/login',  reader, checkLogIn)
 server.use(express.static('public'))
 
-function showLogInt(req, res) { 
+function showLogIn(req, res) { 
     res.render('login.html') 
 }
 
 function checkLogIn(req, res) {
-    // req.body.email,        req.body.secret
-    res.send(req.body)
+    if (req.body.email == 'mark@fb.com' && req.body.secret == 'mark123') {
+        var c = createCard()
+        valid[c] = true
+        res.header('Set-Cookie', 'card=' + c)
+    }
+    res.redirect('/')
+}
+
+function createCard() {
+    return parseInt(Math.random() * 100000000)
 }
 
 function showHome(req, res) {
