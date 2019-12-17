@@ -18,7 +18,15 @@ server.get('/search',  showSearch)
 server.get ('/login',  showLogIn)
 server.post('/login',  reader, checkLogIn)
 server.get ('/main',   cookie, showMain)
+server.get ('/logout', cookie, showLogOutPage)
 server.use(express.static('public'))
+
+function showLogOutPage(req, res) {
+    var card = null
+    if (req.cookies != null) { card = req.cookies.card }
+    delete valid[card]
+    res.render('logout.html')
+}
 
 function showMain(req, res) {
     var card = null
@@ -40,7 +48,7 @@ function checkLogIn(req, res) {
         valid[c] = true
         res.header('Set-Cookie', 'card=' + c)
     }
-    res.redirect('/')
+    res.redirect('/main')
 }
 
 function createCard() {
