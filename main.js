@@ -43,12 +43,18 @@ function showLogIn(req, res) {
 }
 
 function checkLogIn(req, res) {
-    if (req.body.email == 'mark@fb.com' && req.body.secret == 'mark123') {
-        var c = createCard()
-        valid[c] = true
-        res.header('Set-Cookie', 'card=' + c)
-    }
-    res.redirect('/main')
+    var sql  = 'select * from viewer where email=? and password=sha2(?,512)'
+    var data = [req.body.email, req.body.secret]
+    pool.query(sql, data, function(error, result) {
+        if (result.length == 1) {
+            var c = createCard()
+            valid[c] = result[0]
+            res.header('Set-Cookie', 'card=' + c)
+            res.redirect('/main')
+        } else {
+            res.redirect('/login')
+        }
+    })
 }
 
 function createCard() {

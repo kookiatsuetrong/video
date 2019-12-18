@@ -5,6 +5,15 @@ create user james identified with mysql_native_password by 'bond';
 grant all on webschool.* to james;
 
 use webschool;
+create table viewer(
+  id          int unique not null auto_increment,
+  email       varchar(200) unique not null,
+  password    varchar(200) not null,
+  name        varchar(200) not null,
+  status      varchar(200) default 'basic'
+);
+insert into viewer( email, password, name )
+  values('user@email.com', sha2('user123', 512), 'James Bond');
 create table lesson
 (
   id          int unique not null auto_increment,
