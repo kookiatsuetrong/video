@@ -15,11 +15,30 @@ var valid = [ ]
 
 server.get('/',        showHome)
 server.get('/search',  showSearch)
+server.get (['/join', '/register'], showRegister)
+server.post(['/join', '/register'], reader, saveNewViewer)
 server.get ('/login',  showLogIn)
 server.post('/login',  reader, checkLogIn)
 server.get ('/main',   cookie, showMain)
 server.get ('/logout', cookie, showLogOutPage)
 server.use(express.static('public'))
+
+function showRegister(req, res) {
+    res.render('register.html')
+}
+
+function saveNewViewer(req, res) {
+    var sql  = `insert into viewer(email, password, name) 
+                values(?, sha2(?, 512), ?)`
+    var data = [ req.body.email, req.body.secret, req.body.name]
+    pool.query(sql, data, function(error, result) {
+        if (error == null) {
+            res.redirect('/login')
+        } else {
+            res.redirect('/register')
+        }
+    })
+}
 
 function showLogOutPage(req, res) {
     var card = null
